@@ -1,0 +1,31 @@
+steps:
+  # 1) Build your Docker image with a unique tag
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - build
+      - --no-cache
+      - -t
+      - "gcr.io/$PROJECT_ID/japan-trip-bot:$BUILD_ID"
+      - .
+
+  # 2) Push it to GCR
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - push
+      - "gcr.io/$PROJECT_ID/japan-trip-bot:$BUILD_ID"
+
+  # 3) Update your VM’s metadata so it pulls the new image
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - compute
+      - instances
+      - update-container
+      - japan-trip-bot
+      - --zone=us-central1-f
+      - --container-image=gcr.io/$PROJECT_ID/japan-trip-bot:$BUILD_ID
+      - --container-env=NODE_ENV=production,GOOGLE_CLOUD_PROJECT=$PROJECT_ID
+      - --container-restart-policy=always
+
+# Tell Cloud Build which images you expect to publish
+images:
+  - "gcr.io/$PROJECT_ID/japan-trip-bot:$BUILD_ID"

@@ -1,0 +1,20 @@
+{
+  "name": "japan-trip-bot",
+  "version": "1.0.0",
+  "description": "Discord bot for Japan trip planning using Google Docs as source of truth",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js"
+  },
+  "dependencies": {
+    "discord.js": "^14.14.1",
+    "googleapis": "^131.0.0",
+    "openai": "^4.28.0",
+    "dotenv": "^16.4.1",
+    "@google-cloud/secret-manager": "^5.0.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
