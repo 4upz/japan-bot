@@ -31,8 +31,10 @@ async function startBot() {
   client.on('messageCreate', async (message) => {
     if (message.author.bot) return;
     
-    const isMentioned = message.mentions.has(client.user);
-    if (!isMentioned) return;
+    const isDirectMention = message.mentions.users.has(client.user.id);
+    const isReply = message.reference && message.mentions.repliedUser?.id === client.user.id;
+    
+    if (!isDirectMention && !isReply) return;
 
     const question = message.content.replace(`<@${client.user.id}>`, '').trim();
     if (!question) {
