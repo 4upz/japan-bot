@@ -48,8 +48,7 @@ async function startBot() {
       const channelId = message.channel.id;
       const conversationHistory = contextManager.getContext(channelId);
       
-      const docContent = await googleDocs.getDocumentContent();
-      const answer = await openai.getAnswer(docContent, question, conversationHistory);
+      const answer = await openai.getAnswer(question, conversationHistory, googleDocs);
       
       contextManager.storeMessage(channelId, 'user', question);
       contextManager.storeMessage(channelId, 'assistant', answer);
